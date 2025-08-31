@@ -8,32 +8,16 @@ A Node.js/Express backend for the Social Flow Web3 application with PostgreSQL d
 - PostgreSQL database with proper schema
 - Rate limiting and security middleware
 - CORS configuration
-- Docker support for deployment
 - Health check endpoints
 
 ## Prerequisites
 
 - Node.js 18 or higher
 - PostgreSQL 15 or higher
-- Docker (optional, for containerized deployment)
 
 ## Local Development Setup
 
-### Option 1: Using Docker Compose (Recommended)
-
-1. Clone the repository and navigate to the backend directory:
-```bash
-cd backend
-```
-
-2. Start the services using Docker Compose:
-```bash
-docker-compose up -d
-```
-
-This will start both PostgreSQL and the backend server automatically.
-
-### Option 2: Manual Setup
+### Manual Setup
 
 1. Install dependencies:
 ```bash
@@ -114,18 +98,6 @@ The database includes the following tables:
 - `votes` - User votes on posts
 
 ## Deployment
-
-### Docker Deployment
-
-1. Build the Docker image:
-```bash
-docker build -t social-flow-backend .
-```
-
-2. Run the container:
-```bash
-docker run -p 5000:5000 --env-file .env social-flow-backend
-```
 
 ### Production Deployment
 

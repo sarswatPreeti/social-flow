@@ -26,7 +26,6 @@ A decentralized social media platform built with Next.js, Flow blockchain, and P
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web framework
 - **PostgreSQL** - Relational database
-- **Docker** - Containerization
 
 ### Blockchain
 - **Flow Blockchain** - Smart contracts for voting and social interactions
@@ -37,7 +36,6 @@ A decentralized social media platform built with Next.js, Flow blockchain, and P
 ### Prerequisites
 - Node.js 18 or higher
 - PostgreSQL 15 or higher
-- Docker (optional, for containerized setup)
 
 ### 1. Clone the Repository
 ```bash
@@ -56,15 +54,6 @@ npm run dev
 
 ### 3. Backend Setup
 
-#### Option A: Using Docker (Recommended)
-```bash
-# Start backend and database
-npm run docker:up
-
-# The backend will be available at http://localhost:5000
-```
-
-#### Option B: Manual Setup
 ```bash
 # Setup backend
 npm run backend:setup

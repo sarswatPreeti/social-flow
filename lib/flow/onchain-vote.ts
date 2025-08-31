@@ -1,5 +1,3 @@
-"use server"
-
 export const USE_MOCK_ONCHAIN = true
 
 export async function castVoteOnchain(params: {
