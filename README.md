@@ -1,259 +1,235 @@
-# Flow Social DApp
+# Social Flow - Web3 Social Platform
 
-A decentralized social media application built on the Flow blockchain using Next.js and FCL (Flow Client Library).
+A decentralized social media platform built with Next.js, Flow blockchain, and PostgreSQL backend.
 
-## 🌟 Features
+## Features
 
-- **Flow Wallet Connection**: Connect with Flow Wallet extension on testnet
-- **Blockchain Posts**: Create posts directly on Flow blockchain
-- **On-Chain Voting**: Vote on posts with Flow transactions
-- **Real-time Transaction Status**: Monitor transaction status in real-time
-- **Modern UI**: Built with Next.js, Tailwind CSS, and Radix UI
-- **TypeScript**: Full type safety throughout the application
+- 🔗 **Flow Blockchain Integration** - Connect with Flow wallets and interact with smart contracts
+- 📝 **Social Posts** - Create, view, and interact with posts
+- 💬 **Comments System** - Add comments to posts
+- ⬆️ **Voting System** - Upvote and downvote posts with Flow tokens
+- 👤 **User Profiles** - View user profiles and posts
+- 🔍 **Search Functionality** - Search through posts and users
+- 📱 **Mobile Responsive** - Beautiful UI that works on all devices
+- 🚀 **Real-time Updates** - Instant updates with persistent database storage
 
-## 🏗️ Project Structure
+## Tech Stack
 
-```
-flow-social-dapp/
-├── contracts/                 # Flow contracts and transactions
-│   ├── cadence/              # Cadence smart contracts
-│   ├── transactions/         # Transaction scripts
-│   └── scripts/              # Query scripts
-├── components/               # React components
-│   ├── wallet/               # Wallet connection components
-│   ├── feed/                 # Social feed components
-│   └── providers/            # Context providers
-├── hooks/                    # Custom React hooks
-├── lib/                      # Utility libraries
-│   └── flow/                 # Flow blockchain utilities
-└── app/                      # Next.js app directory
-```
+### Frontend
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **Radix UI** - Accessible component primitives
+- **Flow Client Library (FCL)** - Flow blockchain integration
 
-## 🚀 Getting Started
+### Backend
+- **Node.js** - JavaScript runtime
+- **Express.js** - Web framework
+- **PostgreSQL** - Relational database
+- **Docker** - Containerization
+
+### Blockchain
+- **Flow Blockchain** - Smart contracts for voting and social interactions
+- **Cadence** - Smart contract language
+
+## Quick Start
 
 ### Prerequisites
+- Node.js 18 or higher
+- PostgreSQL 15 or higher
+- Docker (optional, for containerized setup)
 
-- Node.js 18+ installed
-- Flow Wallet browser extension installed
-- Flow CLI (optional, for contract deployment)
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone <your-repo-url>
-   cd flow-social-dapp
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   # or
-   pnpm install
-   ```
-
-3. **Set up environment variables:**
-   Create a `.env.local` file in the root directory:
-   ```env
-   NEXT_PUBLIC_FLOW_NETWORK=testnet
-   NEXT_PUBLIC_ACCESS_NODE_URL=https://rest-testnet.onflow.org
-   NEXT_PUBLIC_DISCOVERY_WALLET=https://fcl-discovery.onflow.org/testnet/authn
-   NEXT_PUBLIC_APP_TITLE=Flow Social DApp
-   ```
-
-4. **Start the development server:**
-   ```bash
-   npm run dev
-   # or
-   pnpm dev
-   ```
-
-5. **Open your browser:**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-## 🔌 Wallet Connection
-
-The app uses FCL (Flow Client Library) to connect with Flow wallets:
-
-1. **Install Flow Wallet Extension**: Get it from the Chrome Web Store
-2. **Create or Import Account**: Set up your Flow testnet account
-3. **Connect**: Click "Connect Wallet" in the app
-4. **Select Flow Wallet**: Choose Flow Wallet from the discovery UI
-
-## 📝 Smart Contracts
-
-### SocialContract.cdc
-
-Located in `contracts/cadence/SocialContract.cdc`, this contract handles:
-
-- **Posts**: Create and store posts on-chain
-- **Voting**: Upvote/downvote posts with Flow tokens
-- **Comments**: Add comments to posts
-- **User Management**: Track user interactions
-
-### Key Functions
-
-```cadence
-// Create a new post
-access(all) fun createPost(author: Address, content: String): UInt64
-
-// Vote on a post
-access(all) fun voteOnPost(postId: UInt64, voter: Address, isUpvote: Bool)
-
-// Add comment to a post
-access(all) fun addComment(postId: UInt64, author: Address, content: String): UInt64
-
-// Get all posts
-access(all) fun getAllPosts(): [Post]
-```
-
-## 🛠️ Development
-
-### Key Components
-
-1. **FlowProvider**: Initializes Flow configuration
-2. **useFlowAuth**: Hook for wallet authentication
-3. **useFlowTransaction**: Hook for executing transactions
-4. **ConnectWalletButton**: Wallet connection UI
-5. **CreatePost**: Post creation with blockchain integration
-6. **PostActions**: Voting and interaction components
-
-### Flow Configuration
-
-The app is configured for Flow testnet with the following setup:
-
-```typescript
-fcl.config()
-  .put("app.detail.title", "Flow Social DApp")
-  .put("flow.network", "testnet")
-  .put("accessNode.api", "https://rest-testnet.onflow.org")
-  .put("discovery.wallet", "https://fcl-discovery.onflow.org/testnet/authn")
-```
-
-### Transaction Flow
-
-1. **User Action**: Click post/vote button
-2. **Wallet Prompt**: Flow Wallet requests user authorization
-3. **Transaction Submit**: FCL sends transaction to Flow network
-4. **Status Updates**: Real-time status monitoring
-5. **UI Update**: Reflect changes when transaction is sealed
-
-## 🧪 Testing
-
-The app includes mock transactions for testing without deploying contracts:
-
-```typescript
-// Example mock transaction
-const transactionId = await fcl.mutate({
-  cadence: `
-    transaction(content: String) {
-      prepare(signer: &Account) {
-        log("Creating post: ".concat(content))
-      }
-      execute {
-        log("Post created successfully")
-      }
-    }
-  `,
-  args: (arg, t) => [arg(content, t.String)]
-})
-```
-
-## 📦 Deployment
-
-### Contract Deployment (Optional)
-
-1. **Install Flow CLI:**
-   ```bash
-   sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
-   ```
-
-2. **Deploy to testnet:**
-   ```bash
-   flow project deploy --network testnet
-   ```
-
-### Frontend Deployment
-
-Deploy to Vercel, Netlify, or your preferred platform:
-
+### 1. Clone the Repository
 ```bash
-npm run build
-npm start
+git clone <repository-url>
+cd social-flow
 ```
 
-## 🔧 Configuration
+### 2. Frontend Setup
+```bash
+# Install dependencies
+npm install
 
-### Environment Variables
+# Start the development server
+npm run dev
+```
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_FLOW_NETWORK` | Flow network | `testnet` |
-| `NEXT_PUBLIC_ACCESS_NODE_URL` | Flow access node URL | `https://rest-testnet.onflow.org` |
-| `NEXT_PUBLIC_DISCOVERY_WALLET` | Wallet discovery endpoint | `https://fcl-discovery.onflow.org/testnet/authn` |
-| `NEXT_PUBLIC_APP_TITLE` | App title | `Flow Social DApp` |
+### 3. Backend Setup
 
-### FCL Configuration
+#### Option A: Using Docker (Recommended)
+```bash
+# Start backend and database
+npm run docker:up
 
-The app uses FCL for blockchain interactions:
+# The backend will be available at http://localhost:5000
+```
 
-- **Authentication**: Wallet connection and user management
-- **Transactions**: Posting, voting, commenting
-- **Queries**: Reading blockchain state
-- **Status Monitoring**: Real-time transaction tracking
+#### Option B: Manual Setup
+```bash
+# Setup backend
+npm run backend:setup
 
-## 🐛 Troubleshooting
+# Start backend development server
+npm run backend:dev
+```
 
-### Common Issues
+### 4. Database Setup
+If not using Docker, set up PostgreSQL manually:
+```bash
+# Create database
+createdb social_flow_db
 
-1. **Wallet Connection Fails**:
-   - Ensure Flow Wallet extension is installed
-   - Check if you're on Flow testnet
-   - Clear browser cache and cookies
+# Run schema
+psql -d social_flow_db -f backend/database/schema.sql
+```
 
-2. **Transaction Fails**:
-   - Verify you have sufficient Flow tokens for gas
-   - Check transaction limits in FCL config
-   - Monitor browser console for errors
-
-3. **Contract Interaction Issues**:
-   - Ensure contracts are deployed (or use mock mode)
-   - Verify contract addresses in flow.json
-   - Check network configuration
-
-### Debug Mode
-
-Enable debug logging by adding to your environment:
-
+### 5. Environment Configuration
+Create a `.env.local` file in the root directory:
 ```env
-NODE_ENV=development
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
 ```
 
-## 📚 Resources
+## Project Structure
 
-- [Flow Documentation](https://developers.flow.com)
-- [FCL Documentation](https://developers.flow.com/build/tools/clients/fcl-js)
-- [Cadence Language](https://cadence-lang.org)
-- [Flow Wallet](https://wallet.flow.com)
+```
+social-flow/
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes (proxies to backend)
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Home page
+├── backend/               # Express.js backend
+│   ├── config/            # Database configuration
+│   ├── database/          # Database schema
+│   ├── middleware/        # Express middleware
+│   ├── models/            # Database models
+│   ├── routes/            # API routes
+│   ├── server.js          # Main server file
+│   └── docker-compose.yml # Docker setup
+├── components/            # React components
+│   ├── ui/               # Reusable UI components
+│   ├── feed/             # Feed-related components
+│   └── wallet/           # Wallet integration
+├── contracts/            # Flow smart contracts
+│   ├── cadence/          # Cadence contracts
+│   ├── scripts/          # Flow scripts
+│   └── transactions/     # Flow transactions
+├── hooks/                # Custom React hooks
+├── lib/                  # Utility libraries
+│   ├── flow/            # Flow blockchain integration
+│   └── api-client.ts    # Backend API client
+└── types/               # TypeScript type definitions
+```
 
-## 🤝 Contributing
+## API Endpoints
+
+### Posts
+- `GET /api/posts` - Get all posts
+- `GET /api/posts/:id` - Get specific post
+- `POST /api/posts` - Create new post
+- `POST /api/posts/:id/vote` - Vote on post
+- `GET /api/posts/user/:address` - Get user posts
+
+### Comments
+- `GET /api/posts/:id/comments` - Get post comments
+- `POST /api/posts/:id/comments` - Add comment
+
+## Smart Contracts
+
+The project includes Flow smart contracts for:
+- Post creation and management
+- Voting with Flow tokens
+- User reputation system
+
+### Contract Addresses
+- **SocialContract**: `0x...` (deploy to your Flow network)
+
+## Development
+
+### Available Scripts
+```bash
+# Frontend
+npm run dev              # Start Next.js dev server
+npm run build            # Build for production
+npm run start            # Start production server
+
+# Backend
+npm run backend:setup    # Setup backend dependencies
+npm run backend:dev      # Start backend dev server
+npm run backend:start    # Start backend production server
+
+# Docker
+npm run docker:up        # Start services with Docker
+npm run docker:down      # Stop Docker services
+```
+
+### Database Management
+```bash
+# Connect to database
+psql -d social_flow_db
+
+# Run migrations
+psql -d social_flow_db -f backend/database/schema.sql
+```
+
+## Deployment
+
+### Frontend (Vercel)
+1. Connect your repository to Vercel
+2. Set environment variables
+3. Deploy automatically on push
+
+### Backend (Railway/Render/Heroku)
+1. Connect your repository
+2. Set environment variables:
+   - `DATABASE_URL`
+   - `NODE_ENV=production`
+   - `PORT`
+3. Deploy
+
+### Database (Supabase/AWS RDS)
+1. Create PostgreSQL database
+2. Run schema migration
+3. Update backend `DATABASE_URL`
+
+## Environment Variables
+
+### Frontend (.env.local)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
+
+### Backend (.env)
+```env
+DATABASE_URL=postgresql://username:password@localhost:5432/social_flow_db
+NODE_ENV=development
+PORT=5000
+JWT_SECRET=your_secret_key
+CORS_ORIGIN=http://localhost:3000
+```
+
+## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if needed
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🎯 Roadmap
+## Support
 
-- [ ] Deploy contracts to Flow testnet
-- [ ] Add comment functionality
-- [ ] Implement user profiles
-- [ ] Add media upload to IPFS
-- [ ] Mobile responsive design
-- [ ] Real-time notifications
-- [ ] Integration with Flow NFT standards
+If you encounter any issues or have questions:
+1. Check the [Issues](https://github.com/your-repo/issues) page
+2. Create a new issue with detailed information
+3. Join our community discussions
+
+## Acknowledgments
+
+- [Flow Blockchain](https://flow.com/) for the blockchain infrastructure
+- [Next.js](https://nextjs.org/) for the React framework
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+- [Radix UI](https://www.radix-ui.com/) for accessible components

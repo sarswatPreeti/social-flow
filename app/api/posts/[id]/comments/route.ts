@@ -1,21 +1,34 @@
 import { NextResponse } from "next/server"
-import { addComment, getComments } from "@/app/api/posts/db"
+import { apiClient } from "@/lib/api-client"
 import type { Comment } from "@/types/social"
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
-  return NextResponse.json({ comments: getComments(params.id) })
+  const response = await apiClient.getComments(params.id)
+  if (response.error) {
+    return NextResponse.json({ error: response.error }, { status: 500 })
+  }
+  return NextResponse.json(response.data)
 }
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const body = (await req.json()) as Pick<Comment, "text" | "author">
-  const comment: Comment = {
-    id: "c_" + Math.random().toString(36).slice(2),
-    postId: params.id,
-    author: body.author,
-    text: body.text,
-    createdAt: new Date().toISOString(),
-    likes: 0,
+  
+  if (!body.author?.address) {
+    return NextResponse.json({ error: "Author address is required" }, { status: 400 })
   }
-  addComment(comment)
-  return NextResponse.json({ comment })
+  
+  if (!body.text) {
+    return NextResponse.json({ error: "Comment text is required" }, { status: 400 })
+  }
+  
+  const response = await apiClient.createComment(params.id, {
+    author: body.author,
+    text: body.text
+  })
+  
+  if (response.error) {
+    return NextResponse.json({ error: response.error }, { status: 500 })
+  }
+  
+  return NextResponse.json(response.data)
 }
