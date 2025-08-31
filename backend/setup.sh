@@ -30,7 +30,7 @@ else
     echo "✅ .env file already exists"
 fi
 
-# Check if PostgreSQL is running (if not using Docker)
+# Check if PostgreSQL is running
 if command -v psql &> /dev/null; then
     echo "🐘 PostgreSQL detected. You can run the schema manually:"
     echo "   createdb social_flow_db"

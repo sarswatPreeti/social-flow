@@ -63,7 +63,7 @@ npm run backend:dev
 ```
 
 ### 4. Database Setup
-If not using Docker, set up PostgreSQL manually:
+Set up PostgreSQL:
 ```bash
 # Create database
 createdb social_flow_db
@@ -93,8 +93,7 @@ social-flow/
 │   ├── middleware/        # Express middleware
 │   ├── models/            # Database models
 │   ├── routes/            # API routes
-│   ├── server.js          # Main server file
-│   └── docker-compose.yml # Docker setup
+│   └── server.js          # Main server file
 ├── components/            # React components
 │   ├── ui/               # Reusable UI components
 │   ├── feed/             # Feed-related components
@@ -146,10 +145,6 @@ npm run start            # Start production server
 npm run backend:setup    # Setup backend dependencies
 npm run backend:dev      # Start backend dev server
 npm run backend:start    # Start backend production server
-
-# Docker
-npm run docker:up        # Start services with Docker
-npm run docker:down      # Stop Docker services
 ```
 
 ### Database Management
